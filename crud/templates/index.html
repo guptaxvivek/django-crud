@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="row p-4 m-4">
+        <div class="col-lg-8 ">
+            {% if obj %}
+            <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Action</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                    {% for data in obj %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{data.name}}</td>
+                    <td>{{data.email}}</td>
+                    <td>{{data.phone}}</td>
+                    <td><a href="{% url 'editROW' data.pk %}">Edit</a></td>
+                    <td><a href="{% url 'deleteROW' data.pk %}">Delete</a></td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              {% endif %}
+        </div>
+        <div class="col-lg-4">
+            {% if editOBJ %}
+            <form action="{% url 'editROW' editOBJ.pk %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputName1">Name</label>
+                    <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name" value="{{editOBJ.name}}">
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" value="{{editOBJ.email}}" disabled>
+                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPhone1">Name</label>
+                    <input type="text" class="form-control" id="exampleInputPhone1" placeholder="Phone" name="phone" value="{{editOBJ.phone}}">
+                  </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            {% else %}
+            <form action="/" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputName1">Name</label>
+                    <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name">
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPhone1">Name</label>
+                    <input type="text" class="form-control" id="exampleInputPhone1" placeholder="Phone" name="phone">
+                  </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              {% endif %}
+
+        </div>
+    </div>
+ 
+</body>
+</html>
